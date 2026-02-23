@@ -5,11 +5,11 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { useAuth } from '@/Myauth/auth';
 import { router } from 'expo-router';
 
-const UpdateForm = ({setModalVisible}:any) => {
+const UpdateForm = ({ setModalVisible }: any) => {
 
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
-    const {  rasidentId,getuserdata ,establishmentid }: any = useAuth()
+    const { rasidentId, getuserdata, establishmentid }: any = useAuth()
 
     const renderLabel = () => {
         if (value || isFocus) {
@@ -28,9 +28,9 @@ const UpdateForm = ({setModalVisible}:any) => {
 
     ];
 
-   
 
-    console.log(establishmentid, "item")
+
+    // console.log(establishmentid, "item")
 
 
     const [check, setCheck] = useState()
@@ -44,43 +44,40 @@ const UpdateForm = ({setModalVisible}:any) => {
             'Establishments-id': establishmentid
         }
     )
-
-
-
-
     const updatedata = async () => {
-
-
         const { error } = await supabase
             .from('User')
             .update(formdata)
-            .eq('id',rasidentId.id)
-            router.push('/Pages/user')
-            setModalVisible(false)
+            .eq('id', rasidentId.id)
+            console.log(formdata)
+
+        router.push('/Pages/user')
+       
+        setModalVisible(false)
+
+    }
+ console.log(rasidentId.id, "resident id")
+    const generate = () => {
+
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+        const passwordGenerat = (Math.floor(100000 + Math.random() * 900000));
+
+        setFormdata({ ...formdata, password: passwordGenerat.toString() })
+
+        // console.log(passwordGenerat)
+
+        // for(let i = 0;i<)
+
+
+
 
     }
 
- const  generate =()=>{
-  
-   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
- 
- const passwordGenerat = (Math.floor(100000 + Math.random() * 900000));
-
- setFormdata({...formdata,password:passwordGenerat.toString()})
-
- console.log(passwordGenerat)
-
-// for(let i = 0;i<)
 
 
 
-
- }
-
-
-
-
-    console.log(check, "data")
+    // console.log(check, "data")
 
     return (
         <View>
@@ -126,7 +123,7 @@ const UpdateForm = ({setModalVisible}:any) => {
                 </View>
                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingTop: 10 }}>
                     <TextInput style={{ borderWidth: 1, borderRadius: 10, borderColor: "rgb(240, 231, 204)", padding: 12, width: "70%" }} placeholder='Temporary Password' value={formdata.password} onChangeText={(value) => setFormdata({ ...formdata, password: value })}></TextInput>
-                    <Pressable style={{ borderWidth: 1, padding: 10, borderRadius: 10, backgroundColor: "rgb(209, 213, 219)" }} onPress={()=>{generate()}}>
+                    <Pressable style={{ borderWidth: 1, padding: 10, borderRadius: 10, backgroundColor: "rgb(209, 213, 219)" }} onPress={() => { generate() }}>
                         <Text>
                             Generate
                         </Text>
@@ -137,7 +134,7 @@ const UpdateForm = ({setModalVisible}:any) => {
             </View>
 
             <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20 }}>
-                <Pressable style={{ borderWidth: 1, padding: 10, borderRadius: 10 }} onPress={() =>setModalVisible(false)} >
+                <Pressable style={{ borderWidth: 1, padding: 10, borderRadius: 10 }} onPress={() => setModalVisible(false)} >
                     <Text>
                         Cancel
                     </Text>

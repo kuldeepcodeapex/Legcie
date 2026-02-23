@@ -33,7 +33,7 @@ const Login = () => {
         if (error) Alert.alert(error.message)
 
         if (session) {
-            console.log(session.user.email,"this is session ")
+            // console.log(session.user.email,"this is session ")
             // setToken(session)
         }
 
@@ -45,7 +45,7 @@ const Login = () => {
         // console.log(err,"this is data ")
         
         if (user[0]?.role === "Contributor") {
-            console.log(data[0]?.role,"true")
+            // console.log(data[0]?.role,"true")
             // setRole(user)
             //    console.log(role,"jkgbjkhghbghjgbhjgjgjkjk")
             return <Redirect href="/Pages/Home" />;
@@ -53,7 +53,7 @@ const Login = () => {
             // router.push('/Deshboard/Home')
         } else if (user[0]?.role == "Administrator") {
             //  console.log(token,"jkgbjkhghbghjgbhjgjgjkjk")
-            console.log("false")
+            // console.log("false")
                         return <Redirect href="/Pages/Home" />;
 
         }

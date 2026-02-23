@@ -13,7 +13,7 @@ export default function RootLayout() {
 
 
 // console.log(role,"sbcvxhjkesbdvhjkbdjkbes")
-console.log(token,"sbcvxhjkesbdvhjkbdjkbes")
+// console.log(token,"sbcvxhjkesbdvhjkbdjkbes")
 
 
     if (loding) {

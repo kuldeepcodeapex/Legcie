@@ -4,117 +4,117 @@ import { supabase } from '@/lib/supabase'
 import { AntDesign, Entypo } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import React, { useContext, useEffect, useState } from 'react'
-import { FlatList, Pressable, StyleSheet, Text, View,Modal} from 'react-native'
+import { FlatList, Pressable, StyleSheet, Text, View, Modal } from 'react-native'
 import UserForm from './UserForm'
 import { useAuth } from '@/Myauth/auth';
 
 const User = () => {
 
-    const { setGetUserdata, getuserdata, userCount, establishmentid }: any = useAuth()
-    let a
+  const { setGetUserdata, getuserdata, userCount, establishmentid }: any = useAuth()
+  let a
   const [modalVisible, setModalVisible] = useState(false);
 
-    const [count, setcount] = useState()
-    const fetchuserdata = async () => {
-        const { data, error } = await supabase
-            .from('User')
-            .select('*')
-            .eq('Establishments-id', establishmentid)
-        setGetUserdata(data)
+  const [count, setcount] = useState()
+  const fetchuserdata = async () => {
+    const { data, error } = await supabase
+      .from('User')
+      .select('*')
+      .eq('Establishments-id', establishmentid)
+    setGetUserdata(data)
 
-        if (error) console.log(error.message)
-
-
-    }
-    useEffect(() => {
-        fetchuserdata()
-    }, [])
-
-     
+    if (error) console.log(error.message)
 
 
-    const deletedata = async (item:any) => {
+  }
+  useEffect(() => {
+    fetchuserdata()
+  }, [])
 
-        console.log(item)
-        const response = await supabase
-            .from('User')
-            .delete()
-            .eq('id', item.id)
-            .eq('Establishments-id', establishmentid)
-
-    }
-  
-    useEffect(() => {
-        fetchuserdata()
-    }, [])
+console.log(getuserdata)
 
 
-    return (
-        <View>
-            <View style={{ padding: 20, borderBottomWidth: 1 }}>
-                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                    <View style={{}}>
-                        <Text>Users - House of </Text>
-                        <Text>roses</Text>
-                        <Text>{userCount} users</Text>
-                    </View>
+  const deletedata = async (item: any) => {
 
-                    <Pressable>
-                        <View style={{ alignItems: "center", flexDirection: "row", gap: 10, justifyContent: "space-between" }}>
-                            <Pressable style={{ backgroundColor: "rgb(92, 65, 41)", flexDirection: "row", borderRadius: 10, justifyContent: "center", paddingVertical: 10, alignItems: "center", paddingHorizontal: 28 }}
-                                onPress={() => {
-                                    setModalVisible(true)
-                                }}
-                            >
-                                <Entypo name="plus" size={16} color="white" style={{ width: 40, }} />
-                                <View>
-                                    <Text style={{ color: "white" }}>
-                                        New
-                                    </Text>
-                                    <Text style={{ color: "white" }}>
-                                        user
-                                    </Text>
-                                </View>
-                            </Pressable>
-                             <Modal
-          animationType="fade"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-           <UserForm  setModalVisible={setModalVisible}/>
-              <Pressable onPress={()=>{
-                setModalVisible(true)
-              }}>  
-              </Pressable>
-            </View>
+    console.log(item)
+    const response = await supabase
+      .from('User')
+      .delete()
+      .eq('id', item.id)
+      .eq('Establishments-id', establishmentid)
+
+  }
+
+  useEffect(() => {
+    fetchuserdata()
+  }, [])
+
+
+  return (
+    <View>
+      <View style={{ padding: 20, borderBottomWidth: 1 }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View style={{}}>
+            <Text>Users - House of </Text>
+            <Text>roses</Text>
+            <Text>{userCount} users</Text>
           </View>
-        </Modal>
-                            <Entypo name="cross" size={16} color="black" />
-                        </View>
-                    </Pressable>
+
+          <Pressable>
+            <View style={{ alignItems: "center", flexDirection: "row", gap: 10, justifyContent: "space-between" }}>
+              <Pressable style={{ backgroundColor: "rgb(92, 65, 41)", flexDirection: "row", borderRadius: 10, justifyContent: "center", paddingVertical: 10, alignItems: "center", paddingHorizontal: 28 }}
+                onPress={() => {
+                  setModalVisible(true)
+                }}
+              >
+                <Entypo name="plus" size={16} color="white" style={{ width: 40, }} />
+                <View>
+                  <Text style={{ color: "white" }}>
+                    New
+                  </Text>
+                  <Text style={{ color: "white" }}>
+                    user
+                  </Text>
                 </View>
+              </Pressable>
+              <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  setModalVisible(!modalVisible);
+                }}>
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <UserForm setModalVisible={setModalVisible} />
+                    <Pressable onPress={() => {
+                      setModalVisible(true)
+                    }}>
+                    </Pressable>
+                  </View>
+                </View>
+              </Modal>
+              <Entypo name="cross" size={16} color="black" />
             </View>
-
-            <FlatList
-                data={getuserdata}
-                renderItem={({ item }) =>
-
-                    <UserData item={item} deletedata={deletedata} />}
-            >
-
-
-            </FlatList>
-
-
-
-
-
+          </Pressable>
         </View>
-    )
+      </View>
+
+      <FlatList
+        data={getuserdata}
+        renderItem={({ item }) =>
+
+          <UserData item={item} deletedata={deletedata} />}
+      >
+
+
+      </FlatList>
+
+
+
+
+
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({

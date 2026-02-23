@@ -49,14 +49,15 @@ const UserForm = ({ setModalVisible }:any) => {
   const submitUser = async () => {
     const { data, error } = await supabase
       .from('User')
-      .insert(formdata)
+      .insert({name:formdata.name,email:formdata.email,role:formdata.role,'Establishments-id':formdata['Establishments-id']})
       const { user:check, error:err } = await supabase.auth.signUp({
     email: formdata.email,
     password: formdata.password,
   })
    
+  console.log(data)
     if (error) console.log(error.message)
-    setModalVisible(false)
+    // setModalVisible(false)
 
   }
 

@@ -4,7 +4,6 @@ import { router } from 'expo-router'
 
 const Option = () => {
 
-console.log("sjxkhsjkhcbxhjksbhjksbhjcixb")
 
 
   return (
