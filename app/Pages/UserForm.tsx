@@ -27,12 +27,7 @@ const UserForm = ({ setModalVisible }:any) => {
 
   ];
 
-
-
-
-    const {  rasidents, setRasidents, establishmentid }: any = useAuth()
-
-  console.log(establishmentid, "item")
+    const {  rasidents, setRasidents, establishmentid,setUserCount,userCount }: any = useAuth()
 
 
   const [check, setCheck] = useState()
@@ -50,14 +45,12 @@ const UserForm = ({ setModalVisible }:any) => {
     const { data, error } = await supabase
       .from('User')
       .insert({name:formdata.name,email:formdata.email,role:formdata.role,'Establishments-id':formdata['Establishments-id']})
-      const { user:check, error:err } = await supabase.auth.signUp({
-    email: formdata.email,
-    password: formdata.password,
-  })
-   
-  console.log(data)
+
+      if(!error){
+        setUserCount(userCount+1)
+      }
     if (error) console.log(error.message)
-    // setModalVisible(false)
+    setModalVisible(false)
 
   }
 
@@ -69,19 +62,7 @@ const UserForm = ({ setModalVisible }:any) => {
 
     setFormdata({ ...formdata, password: passwordGenerat.toString() })
 
-    console.log(passwordGenerat)
-
-    // for(let i = 0;i<)
-
-
-
-
   }
-
-
-
-
-
 
 
   return (

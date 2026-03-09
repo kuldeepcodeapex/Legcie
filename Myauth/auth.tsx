@@ -5,6 +5,8 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 const AppStateContext = createContext(null);
 
 const AppStateProvider = ({ children }: any) => {
+  const [checkPlan, setCheckPlan] = useState()
+  const[test,setTest] = useState()
   const [user, setUser] = useState([])
   const [role, setRole] = useState(null)
   const [token, setToken] = useState(null)
@@ -16,29 +18,66 @@ const AppStateProvider = ({ children }: any) => {
   const [rasidents, setRasidents] = useState()
   const [rasidentId, setRasidentId] = useState()
   const [establishmentid, setEstablishmentid] = useState()
-  const [qid, setqid] = useState()
-  const [aid, setAid] = useState()
+  const [qid, setqid] = useState(null)
+  const [aid, setAid] = useState(null)
+  const [count, setCount] = useState(0)
+  const [establishmentscount, setEstablishmentscount] = useState()
+  const [dataQ, setdataQ] = useState()
+  const [dataA, setdataA] = useState()
+  const [pro, setpro] = useState(0.23)
+  const [q, setQ] = useState()
+  const [en,setEn]= useState()
+  const [dataR,setdataR]=useState()
 
   const check = async () => {
-    setLoding(true)
     const { data, error } = await supabase.auth.getSession()
     findrole(data)
-    if (data) {
+
+    if (data.session !== null) {
       setToken(data?.session)
-      // console.log('DDData', data);
-      // console.log(data.session,"this is token")
     }
   }
 
+ const fetchRasidents = async () => {
+      const { data, error } = await supabase
+        .from('Resident')
+        .select('*')
+      setdataR(data)
+    }
+
+
+ const fetchRasidentsQuestion = async () => {
+        const { data, error } = await supabase
+            .from('ResidentsQ')
+            .select('*')
+        const { data: check, error: err } = await supabase
+            .from('ResidentA')
+            .select('*')
+            .eq("Residents_ID", rasidentDashboardID?.id)
+        setdataA(check)
+        setdataQ(data)
+        setQ(data)
+        setpro(((check?.length * 100) / data?.length)/100)
+    }
+   
+    const fetchA = async () => {
+        const { data:check, error } = await supabase
+            .from('ResidentA')
+            .select('*')            
+        setEn(check)
+
+    }
+
+
   const findrole = async (token) => {
-    const { data, err } = await supabase
+    const { data } = await supabase
       .from('User')
       .select('*')
       .eq('email', token?.session?.user?.email)
 
     setRole(data[0]?.role)
     // console.log(role)
-    setLoding(false)
+    // setLoding(false)
   }
 
   useEffect(() => {
@@ -51,7 +90,11 @@ const AppStateProvider = ({ children }: any) => {
     setRole(null)
   }
   return (
-    <AppStateContext.Provider value={{ setRole, role, user, setUser, token, signOut, setToken, loding, aid, setAid, rasidentId, setRasidentId, qid, setqid, rasidentDashboardID, setRasidentDashboardID, establishmentid, setEstablishmentid, data, rasidents, setRasidents, setdata, getuserdata, setGetUserdata, userCount, setUserCount }}>
+    <AppStateContext.Provider value={{dataR,fetchRasidents,setdataR,fetchRasidentsQuestion,test,setTest,fetchA,q, setQ,en,setEn,
+      setRole, role, user, setUser, token, signOut, setToken, loding, aid, setAid, rasidentId,dataQ, setdataQ,dataA, setdataA,pro, setpro,
+      setRasidentId, qid, setqid, rasidentDashboardID, setRasidentDashboardID, establishmentid, setEstablishmentid, data, rasidents,
+      setRasidents, setdata, getuserdata, setGetUserdata, userCount, setUserCount, establishmentscount, setEstablishmentscount, checkPlan, setCheckPlan, count, setCount
+    }}>
       {children}
     </AppStateContext.Provider>
   );

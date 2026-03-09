@@ -4,24 +4,43 @@ import Feather from '@expo/vector-icons/Feather';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import { router } from "expo-router";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { useEffect } from 'react';
+import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
+
 
 
 export default function Home() {
 
-  const { rasidentDashboardID, setRasidentDashboardID, qid, setqid, aid, setAid,signOut}: any = useAuth()
- 
+  const { fetchRasidentsQuestion, fetchRasidents, dataR, en, dataQ, fetchA, signOut }: any = useAuth()
+
+
+  useEffect(
+    () => {
+      fetchA()
+      fetchRasidents()
+      fetchRasidentsQuestion()
+
+
+    }
+    , [])
+  let a = en?.slice(0, 5)
+
+
+
+
+
+
   return (
     <ScrollView>
-      <View style={{ paddingHorizontal: 16, backgroundColor: "rgb(255, 254, 248)", paddingTop:20 }}>
-        <Pressable style={{  marginTop: 40 }}
-        onPress={()=>{
-          signOut()
- 
-        }}
-        
+      <View style={{ paddingHorizontal: 16, backgroundColor: "rgb(255, 254, 248)", paddingTop: 20 }}>
+        <Pressable style={{ marginTop: 40 }}
+          onPress={() => {
+            signOut()
+
+          }}
+
         >
-          <Text style={{fontSize: 20}}>Logout</Text>
+          <Text style={{ fontSize: 20 }}>Logout</Text>
         </Pressable>
         <Text style={{ fontSize: 28, marginTop: 20 }}>Dashboard</Text>
         <Text style={{ fontSize: 20, marginVertical: 10, marginBottom: 50 }}>Overview of your residents and activities</Text>
@@ -36,7 +55,7 @@ export default function Home() {
             <Pressable onPress={() => {
               console.log("first")
               router.push("/Deshboard/pages/Form")
-              
+
             }}>
               <View style={{ alignItems: "center", justifyContent: "center", borderRadius: 5, backgroundColor: "rgb(185, 131, 82)", height: 50, width: 50, }}>
                 <Fontisto name='plus-a' size={32} color='white' />
@@ -61,9 +80,9 @@ export default function Home() {
           </View>
           <View style={{ alignItems: "center", justifyContent: "center", width: "100%", borderWidth: 1.5, borderRadius: 5, borderColor: "rgb(245, 243, 230)", paddingHorizontal: 20, paddingTop: 20, paddingBottom: 20, }} >
             <Pressable style={{ alignItems: "center", justifyContent: "center", borderRadius: 5, backgroundColor: "rgb(234, 179, 8)", height: 50, width: 50, }}
-            onPress={() => {
-              router.push("/Deshboard/pages/EntertainmentWork")
-            }}
+              onPress={() => {
+                router.push("/Deshboard/pages/EntertainmentWork")
+              }}
             >
               <Feather name='star' size={32} color='white' />
 
@@ -106,24 +125,38 @@ export default function Home() {
               latest answers
             </Text>
           </View>
-          <View style={{ flexDirection: "row", gap: 4, borderWidth: 0.3, borderRadius: 10, borderColor: "rgb(185, 131, 82)", padding: 14, marginVertical: 10 }}>
-            <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: "rgb(185, 131, 82)", justifyContent: "center", alignItems: "center" }}>
-              <Text style={{ fontSize: 32, color: "white" }}>
-                MT
-              </Text>
-            </View>
-            <View style={{ width: "70%", gap: 8 }}>
-              <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                <Text style={{ fontSize: 26 }}>Matt H</Text>
-                <Text > add one month ago</Text>
-              </View>
-              <Text style={{ fontSize: 16, color: "rgb(185, 131, 82)" }}> where and when were you born ?</Text>
+          <FlatList
+            data={a}
+            renderItem={({ item }) => {
+              let check = dataR?.find((v) => v.id === item?.Residents_ID)
+              let check2 = dataQ?.find((v) => v.id === item?.Q_id)
+           
+              return (
+                <View style={{ flexDirection: "row", gap: 4, borderWidth: 0.3, borderRadius: 10, borderColor: "rgb(185, 131, 82)", padding: 14, marginVertical: 10 }}>
+                  <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: "rgb(185, 131, 82)", justifyContent: "center", alignItems: "center" }}>
+                    <Text style={{ fontSize: 32, color: "white" }}>
+                      {check?.firstName[0]}{check?.lastName[0]}
+                    </Text>
+                  </View>
+                  <View style={{ width: "70%", gap: 8 }}>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                      <Text style={{ fontSize: 26 }}>Matt H</Text>
+                      <Text > add one month ago</Text>
+                    </View>
+                    <Text style={{ fontSize: 16, color: "rgb(185, 131, 82)" }}> {check2?.Question}</Text>
 
-              <Text style={{ fontSize: 18 }}>"hey this is doing for testing now..?? hello hello hello ff"</Text>
-            </View>
+                    <Text style={{ fontSize: 18 }}>{item?.Answer}</Text>
+                  </View>
 
 
-          </View>
+                </View>
+              )
+            }}
+
+          >
+
+          </FlatList>
+
 
         </View>
         <View style={{ height: 200, width: "100%", padding: 20, backgroundColor: "white", borderWidth: 0.3, borderRadius: 10, marginVertical: 20, marginBottom: 50, borderColor: "rgb(185, 131, 82)", }}>

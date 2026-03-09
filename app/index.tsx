@@ -1,7 +1,8 @@
 import { View } from "react-native";
 import Login from "./login";
-import Home from "./Pages/Home";
+// import Home from "./EstablishmentDrawer/Home";
 import Help from "./Deshboard/pages/Help";
+import Home from "./Deshboard/Home";
 // import { useContext, useEffect, useState } from "react";
 // // import { User } from "@supabase/supabase-js";
 // import { supabase } from "@/lib/supabase";
@@ -18,6 +19,7 @@ import Help from "./Deshboard/pages/Help";
 // import EditAns from "./Deshboard/pages/EditAns";
 // import DrawerNavigator from "./DrawerNavigator";
 // import User from "./Pages/user";
+import { MenuProvider } from 'react-native-popup-menu';
 
 export default function Index() {
 
@@ -26,8 +28,11 @@ export default function Index() {
     
     <View >
       {/* <Help></Help> */}
-   {/* <Home></Home> */}
-      <Login />
+      
+   <Home></Home>
+
+   {/* <Rasidents></Rasidents> */}
+      {/* <Login /> */}
    {/* <Support/> */}
    {/* <Answer></Answer> */}
    {/* <EntertainmentWork/> */}

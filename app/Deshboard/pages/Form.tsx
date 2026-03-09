@@ -40,7 +40,9 @@ const [formdata, setFormdata]= useState({
 
  const submitdata = async () => {
         const { data, error } = await supabase.from('Residents').insert(formdata)
-  
+  if(!error){
+
+  }
         if (error) console.log(error.message)
         if (error) console.log(error)
             console.log(formdata)
@@ -56,7 +58,7 @@ const check =()=>{
             <View style={{ backgroundColor: "rgb(255, 254, 248)", }}>
                 <View style={{ width: "100%", flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 10, paddingVertical: 28 }}>
                    <Pressable onPress={()=>{
-                    router.push("/Deshboard/Home")
+                    router.back()
                    }}>
                      <Feather name='arrow-left' size={32} />;
                    </Pressable>
@@ -157,7 +159,7 @@ const check =()=>{
                 </View>
 
                 <View style={{flexDirection:"row",justifyContent:"space-between", marginHorizontal: 20, marginBottom:60,marginTop:20}}>
-                    <Pressable style={{paddingVertical:10,paddingHorizontal:18, backgroundColor:"rgb(247, 246, 241)",borderRadius:10,borderWidth:0.4 }}>
+                    <Pressable style={{paddingVertical:10,paddingHorizontal:18, backgroundColor:"rgb(247, 246, 241)",borderRadius:10,borderWidth:0.4 }} onPress={()=>{router.push("/Deshboard/Home")}}>
                     <Text style={{color:"black" , fontSize:18}}>Cancel</Text>
                 </Pressable>
 
@@ -166,7 +168,7 @@ const check =()=>{
                     <Text style={{color:"white" , fontSize:18}}>Create the rasident</Text>
                 </Pressable>
                 </View>
-            </View>
+            </View> 
 
         </ScrollView>
     )

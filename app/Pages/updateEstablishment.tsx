@@ -43,15 +43,7 @@ const UpdateEstablishments = ({ setModal }:any) => {
     })
 
 
-
-
-
-
-
-
     const updatedata = async () => {
-
-
         const { error } = await supabase
             .from('Establishment')
             .update(formdata)
@@ -59,11 +51,6 @@ const UpdateEstablishments = ({ setModal }:any) => {
         setModal(false)
 
     }
-
-
-
-
-
 
     return (
         <ScrollView >

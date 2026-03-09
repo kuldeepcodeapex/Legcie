@@ -10,23 +10,18 @@ const Support = () => {
 
 
 
-        const { setGetUserdata, getuserdata, userCount, establishmentid, setRasidents, rasident, rasidentDashboardID, setRasidentDashboardID}: any = useAuth()
+  const { setGetUserdata, dataR, setdataR, getuserdata,fetchRasidents, userCount, establishmentid, setRasidents, rasident, rasidentDashboardID, setRasidentDashboardID, setCount, count }: any = useAuth()
 
 
-  const [dataR, setdataR] = useState()
 
   let Rasidentescount = dataR?.length;
+
   let In_progressRasidents = dataR?.filter((v) => v.Status === "In progress")
-  let waitingRasidents = dataR?.filter((v) => v.Status === "Waiting")
+  let waitingRasidents = dataR?.filter((v) => v.Status === "waiting")
   let CompletedRasidents = dataR?.filter((v) => v.Status === "Completed")
 
 
-  const fetchRasidents = async () => {
-    const { data, error } = await supabase
-      .from('Residents')
-      .select('*')
-    setdataR(data)
-  }
+ 
   useEffect(() => {
     fetchRasidents()
 
@@ -38,13 +33,13 @@ const Support = () => {
   return (
     <ScrollView>
 
-      
+
       <View style={{ paddingHorizontal: 20, paddingVertical: 20, gap: 20, backgroundColor: "rgb(255, 254, 248)" }}>
-        <Pressable onPress={()=>{
-          router.push("/Deshboard/Home")
+        <Pressable onPress={() => {
+          router.back()
         }}>
-        <Text style={{fontSize:20}}>Back</Text>
-      </Pressable>
+          <Text style={{ fontSize: 20 }}>Back</Text>
+        </Pressable>
         <View style={{ alignItems: "center", flexDirection: "row", justifyContent: "space-between" }}>
           <View style={{ width: "50%" }}>
             <Text style={{ fontSize: 30, fontWeight: 500 }}>Resident Management</Text></View>
@@ -174,6 +169,8 @@ const Support = () => {
                 <Pressable style={{ alignItems: "center", justifyContent: "center", paddingVertical: 10, padding: 10, backgroundColor: "rgb(185, 131, 82)", borderRadius: 10 }} onPress={() => {
                   setRasidentDashboardID(item)
                   router.push("/Deshboard/pages/QA")
+                  setCount(count - 1)
+
                 }}>
                   <Text style={{ color: 'white', fontSize: 18, fontWeight: 600 }}>Continue my Book</Text>
                 </Pressable>

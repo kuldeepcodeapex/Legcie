@@ -9,7 +9,7 @@ const UpdateForm = ({ setModalVisible }: any) => {
 
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
-    const { rasidentId, getuserdata, establishmentid }: any = useAuth()
+    const { rasidentId, getuserdata, establishmentid,setUserCount,userCount }: any = useAuth()
 
     const renderLabel = () => {
         if (value || isFocus) {
@@ -27,9 +27,6 @@ const UpdateForm = ({ setModalVisible }: any) => {
         { label: 'Contributor', value: '2' },
 
     ];
-
-
-
     // console.log(establishmentid, "item")
 
 
@@ -47,16 +44,17 @@ const UpdateForm = ({ setModalVisible }: any) => {
     const updatedata = async () => {
         const { error } = await supabase
             .from('User')
-            .update(formdata)
+            .update({ name: formdata.name, email: formdata.email, role: formdata.role, 'Establishments-id': formdata['Establishments-id'] })
             .eq('id', rasidentId.id)
-            console.log(formdata)
-
-        router.push('/Pages/user')
-       
+        if(!error){
+            setUserCount(userCount+1)
+        }
+        console.log(error)
         setModalVisible(false)
-
+        console.log(formdata)
     }
- console.log(rasidentId.id, "resident id")
+    // console.log(rasidentId.id, establishmentid, "resident id")
+    // console.log(formdata, "formdata id")
     const generate = () => {
 
         var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -68,14 +66,7 @@ const UpdateForm = ({ setModalVisible }: any) => {
         // console.log(passwordGenerat)
 
         // for(let i = 0;i<)
-
-
-
-
     }
-
-
-
 
     // console.log(check, "data")
 

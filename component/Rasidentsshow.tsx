@@ -1,20 +1,24 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
 
 const Rasidentsshow = ({item}:any) => {
 
- 
+//  console.log(item)
   return (
+   
+  
+
+
+<View style={{ flexDirection:"row",padding:12,backgroundColor:"rgb(255, 254, 248)",marginTop:20,alignItems:"center",width:700, }}>
+    <Text style={{flex:1,textAlign:"center"}}>{item.firstName}</Text>
+    <Text style={{flex:1, textAlign:"center"}}>{item.email}</Text>
+    <Text style={{flex:1 ,textAlign:"center"}}>{item.telephone}</Text>
+    <Text style={{flex:1,textAlign:"center"}}>{item.Status}</Text>
+    <Text style={{flex:1,textAlign:"center"}}>{item.DateAddad}</Text>
+    <Text style={{flex:1,textAlign:"center"}}>{item.Book}</Text>
+    <Text style={{flex:1,textAlign:"center"}}>Remove</Text>
+</View>
     
-    <View style={{gap:60, flexDirection:"row",padding:12,backgroundColor:"rgb(255, 254, 248)",alignItems:"center",marginTop:10}}>
-        <Text>{item.Name}</Text>
-        <Text>{item.Email}</Text>
-        <Text>{item.Phone}</Text>
-        <Text>{item.Status}</Text>
-        <Text>{item.Date}</Text>
-        <Text>Book</Text>
-        <Text>Remove</Text>
-    </View>
   )
 }
 

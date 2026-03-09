@@ -9,6 +9,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 
 
 const Form = ({setModalVisible}:any) => {
+const { setdata,setEstablishmentscount,establishmentscount} : any = useAuth()
 
 
      const [value, setValue] = useState(null);
@@ -18,8 +19,8 @@ const Form = ({setModalVisible}:any) => {
     
         const itemData = [
             { label: 'Without subscription', value: '1' },
-            { label: 'Starter - 49$', value: '2' },
-            { label: 'Groth', value: '3' },
+            { label: 'Starter', value: '2' },
+            { label: 'Growth', value: '3' },
             { label: 'Pro', value: '4' },
             { label: 'Without Subscription', value: '5' },
     
@@ -43,27 +44,14 @@ const Form = ({setModalVisible}:any) => {
     const submitdata = async () => {
         const { data, error } = await supabase.from('Establishment').insert(formdata)
      setModalVisible(false)
+     if(!error){
+        setEstablishmentscount(establishmentscount+1)
+     }
         if (error) console.log(error.message)
         if (error) console.log(error)
 
     }
 
-const { setdata } : any = useAuth()
-
-
-
-
-    // const fetchdata = async () => {
-    //     const { data, error } = await supabase
-    //         .from('Establishment')
-    //         .select('*');
-    //     setdata(data)
-    //     console.log(data)
-
-
-    // }
-
- 
 
     return (
         <ScrollView style={{backgroundColor:"white"}}>

@@ -5,6 +5,7 @@ import { AppStateProvider, useAuth } from "@/Myauth/auth";
 import { supabase } from '@/lib/supabase';
 import * as ImagePicker from "expo-image-picker";
 import * as Linking from "expo-linking";
+import { router } from 'expo-router';
 
 
 
@@ -13,18 +14,10 @@ const Answer = () => {
   const [fileInfo, setFileInfo] = useState(null);
   const [imageInfo, setImageInfo] = useState(null);
 
-    // const { qid, rasidentDashboardID } = useContext<any>(AppStateContext);
-    const { qid, rasidentDashboardID}: any = useAuth()
+    const { qid, rasidentDashboardID,setCount,count}: any = useAuth()
 
 
-    console.log(qid)
-    console.log(rasidentDashboardID?.id)
-
-
-//  console.log(imageInfo?.uri,"fhjhjuyffghjuyfvjuyfuyjfuytfuyfyufyufyufyfy")
-
-
-
+ 
 
     const [formdata, setFormdata] = useState({
         Answer: "",
@@ -38,14 +31,16 @@ const Answer = () => {
         const { data, error } = await supabase.from('ResidentA').insert(formdata)
 
         console.log("submit Form => ",formdata);
-        
+        setCount(count+1)
+        if(!error){
+            
+         router.push("/Deshboard/pages/QA")
+                
+        }
         if (error) console.log(error.message)
         if (error) console.log(error)
 
     }
-
-
-    
 
    const pickImage = async (fromCamera:any) => {
     try {
@@ -85,17 +80,17 @@ const Answer = () => {
     );
   };
 
-
-
-
-
     return (
         <ScrollView style={{ padding: 20, paddingTop: 30, backgroundColor: "rgb(255, 254, 248)" }}>
             <View style={{ flexDirection: "row", gap: 20, alignItems: "center" }}>
-                <Feather style={{}} name='arrow-left' size={32} />
+                <Pressable onPress={()=>{
+                    router.push("/Deshboard/pages/QA")
+                }}>
+                    <Feather  name='arrow-left' size={32} />
+                </Pressable>
                 <View>
                     <Text style={{ fontSize: 16, paddingLeft: 5 }}>Week</Text>
-                    <Text style={{ fontSize: 26 }}>Where and when were you born?</Text>
+                    <Text style={{ fontSize: 26 }}>{qid?.Question}</Text>
                 </View>
 
             </View>
@@ -103,7 +98,7 @@ const Answer = () => {
 
                 <View style={{ backgroundColor: "white", borderWidth: 0.1, borderRadius: 10, gap: 16, margin: 10, padding: 24 }}>
                     <View style={{ alignItems: "center", flexDirection: "row", gap: 5 }}>
-                        <Feather style={{}} name='arrow-left' size={25} />
+                        <Feather  name='arrow-left' size={25} />
 
                         <Text style={{ fontSize: 18 }}>Animation tips for this question</Text>
                     </View>
@@ -186,10 +181,9 @@ const Answer = () => {
 
                     <View style={{ alignItems: "center", flexDirection: "row", justifyContent: "space-between" }}>
                         <Pressable style={{ marginTop: 30, flexDirection: "row", gap: 10, backgroundColor: "white", borderWidth: 0.1, height: 40, marginRight: 10, width: 120, alignItems: "center", borderRadius: 10, justifyContent: "center" }}
-                        
-                        onPress={()=>{
-                            console.log(imageInfo)
-                        }}
+                      onPress={()=>{
+                    router.push("/Deshboard/pages/QA")
+                }}
                         
                         >
                             <Entypo name="image" size={20} color="rgb(185, 131, 82)" />

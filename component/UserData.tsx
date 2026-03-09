@@ -11,20 +11,20 @@ const UserData = ({ item, deletedata }:any) => {
     const  { getuserdata, userCount, setUserCount, setRasidentId } : any = useAuth()
     const [modalVisible, setModalVisible] = useState(false);
 
-    let b = getuserdata?.length
-    setUserCount(b)
+   
 
-
+// console.log(item)
 
 
 
     return (
 
         <View>
-            <View style={{ borderWidth: 1, margin: 16, padding: 15, paddingVertical: 20, flexDirection: "row", gap: 10, backgroundColor: "rgb(255, 254, 248)" }}>
-                <View style={{ borderWidth: 1, padding: 10, height: 100, width: 100, alignItems: "center", justifyContent: "center", borderRadius: "100%" }}>
+            <View style={{ borderWidth: 0.2, margin: 16, padding: 15, paddingVertical: 20, flexDirection: "row", gap: 10, backgroundColor: "rgb(255, 254, 248)",borderRadius:12 }}>
+                <View style={{ borderWidth: 0.1, padding: 10, height: 100, width: 100, alignItems: "center", justifyContent: "center", borderRadius: "100%"  }}>
                     <Text>
-                        XY
+                        {item.name[0]}
+                        {item.name[1]}
                     </Text>
                 </View>
                 <View>
@@ -32,11 +32,19 @@ const UserData = ({ item, deletedata }:any) => {
                         <Text style={{ width: 55 }}>
                             {item.name}
                         </Text>
-                        <View style={{ backgroundColor: "pink", padding: 3, borderRadius: 10 }}>
+                        {
+                        (item.role==="Contributor" )?
+                        <View style={{ backgroundColor: "pink", padding: 5, borderRadius: 10 }}>
                             <Text style={{ color: "red", fontSize: 10 }}>
-                                Administrator
+                                Contributeur
                             </Text>
                         </View>
+                        :<View style={{ backgroundColor: "rgb(219, 234, 254)", padding: 5, borderRadius: 10 }}>
+                            <Text style={{ color: "rgb(4, 95, 214)", fontSize: 10 }}>
+                                Administrateur
+                            </Text>
+                        </View>
+                        }
                     </View>
 
  <Modal

@@ -94,18 +94,9 @@ useEffect(()=>{
         fetchdata()
       
     }, [establishmentscount])
-   
-
-
-
+  
     return (
         <View>
-            
-
-
-
-
-
 
         <View style={{ backgroundColor: "rgb(245, 241, 228)", height: "100%",  paddingBottom: 50, paddingHorizontal: 20 }}>
             <View style={{ width: "100%", alignItems: "center", gap: 10 }}>

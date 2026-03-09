@@ -14,7 +14,7 @@ const Help = () => {
 
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
-    const [check, setCheck] = useState()
+    const [check, setCheck] = useState(1)
 
 
 
@@ -65,10 +65,10 @@ const VideoList = [
 
             </View>
             <View >
-                <View style={{ flexDirection: "row", width: "100%", gap: "5%", padding: 10, backgroundColor: "white", borderBottomColor: "black", borderBottomWidth: 0.5, marginTop: 20, borderTopEndRadius: 10, borderTopStartRadius: 10 }}>
-                    <Pressable style={{ width: "30%" }}><Text style={{ textAlign: "center" }} onPress={() => { setCheck(1) }}>Frequently asked questions</Text></Pressable>
-                    <Pressable style={{ width: "30%" }}><Text style={{ textAlign: "center" }} onPress={() => { setCheck(2) }}>Count us</Text></Pressable>
-                    <Pressable style={{ width: "30%" }}><Text style={{ textAlign: "center" }} onPress={() => { setCheck(3) }}>Resources</Text></Pressable>
+                <View style={{ flexDirection: "row", width: "100%", gap: "5%", padding: 10, backgroundColor: "white", borderBottomColor: "black", borderBottomWidth: 0.5, marginTop: 20, borderTopEndRadius: 10, borderTopStartRadius: 10 ,alignItems:"center"}}>
+                    <Pressable style={{ width: "30%" }}><Text style={{ textAlign: "center", borderBottomWidth:(check===1)?2:0}} onPress={() => { setCheck(1) }}>Frequently asked questions</Text></Pressable>
+                    <Pressable style={{ width: "30%"}}><Text style={{ textAlign: "center",height:30 , borderBottomWidth:(check===2)?2:0 }} onPress={() => { setCheck(2) }}>Count us</Text></Pressable>
+                    <Pressable style={{ width: "30%" }}><Text style={{ textAlign: "center",height:30 , borderBottomWidth:(check===3)?2:0 }} onPress={() => { setCheck(3) }}>Resources</Text></Pressable>
                 </View>
                 {
                     (check === 1) ?

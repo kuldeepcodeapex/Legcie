@@ -10,7 +10,7 @@ import { useAuth } from '@/Myauth/auth';
 
 const User = () => {
 
-  const { setGetUserdata, getuserdata, userCount, establishmentid }: any = useAuth()
+  const { setGetUserdata, getuserdata, userCount, establishmentid,setUserCount }: any = useAuth()
   let a
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -21,33 +21,33 @@ const User = () => {
       .select('*')
       .eq('Establishments-id', establishmentid)
     setGetUserdata(data)
-
+setUserCount(data?.length)
     if (error) console.log(error.message)
 
 
   }
+
   useEffect(() => {
     fetchuserdata()
-  }, [])
+  }, [userCount])
 
-console.log(getuserdata)
 
 
   const deletedata = async (item: any) => {
 
-    console.log(item)
+    // console.log(item)
     const response = await supabase
       .from('User')
       .delete()
       .eq('id', item.id)
       .eq('Establishments-id', establishmentid)
+      setUserCount(userCount-1)
 
   }
 
-  useEffect(() => {
-    fetchuserdata()
-  }, [])
-
+  // useEffect(() => {
+  //   fetchuserdata()
+  // }, [userCount])
 
   return (
     <View>
@@ -56,7 +56,7 @@ console.log(getuserdata)
           <View style={{}}>
             <Text>Users - House of </Text>
             <Text>roses</Text>
-            <Text>{userCount} users</Text>
+            <Text>{getuserdata?.length} users</Text>
           </View>
 
           <Pressable>

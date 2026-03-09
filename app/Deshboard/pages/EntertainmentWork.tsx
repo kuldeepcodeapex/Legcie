@@ -1,15 +1,60 @@
-import { View, Text, ScrollView, Pressable } from 'react-native'
-import React from 'react'
+import { useAuth } from '@/Myauth/auth'
 import { Entypo, Feather } from '@expo/vector-icons'
 import { router } from 'expo-router'
+import React, { useEffect, useState } from 'react'
+import { FlatList, Pressable, ScrollView, Text, View } from 'react-native'
 
 const EntertainmentWork = () => {
+
+    const { rasidentDashboardID, fetchQ,q, setQ, fetchA,en, fetchRasidentsQuestion, test, setTest, setRasidentDashboardID, qid, setqid, aid, setAid, setCount, pro, setpro, dataA, setdataA, dataQ, setdataQ }: any = useAuth()
+
+    const [id, setId] = useState()
+ 
+
+    const [chapterdata, setChapterdata] = useState()
+    useEffect(() => {
+       fetchRasidentsQuestion()
+        fetchA()
+    } ,[] )
+       
+         
+    
+    const chaptercheck = (str:any) => {
+        if (str === "Childhood") {
+            let a = dataQ.filter((v:any) => v.chapter === "Childhood&Origi")
+            setQ(a)
+         
+        }
+        else if (str === "Adolescence&Schooling") {
+            let a = dataQ.filter((v:any) => v.chapter === "Adolescence&Schooling")
+            setQ(a)
+        }
+        else if (str === "Adult&life&Work") {
+            let a = dataQ.filter((v:any) => v.chapter === "Adult&life&Work")
+            setQ(a)
+        }
+        else if (str === "Love&Family") {
+            let a = dataQ.filter((v:any) => v.chapter === "Love&Family")
+            setQ(a)
+        }
+        else if (str === "Society&World") {
+            let a = dataQ.filter((v:any) => v.chapter === "Society&World")
+            setQ(a)
+        }
+        else if (str === "ValuesMemories&Philosopgy") {
+            let a = dataQ.filter((v:any) => v.chapter === "ValuesMemories&Philosopgy")
+            setQ(a)
+        }
+        else{
+        setQ(dataQ)
+        }
+    }
     return (
         <ScrollView style={{ backgroundColor: "rgb(255, 254, 248)", padding: 20 }}>
             <View style={{ flexDirection: "row", gap: 10, alignItems: 'center' }}>
                 <Pressable
                     onPress={() => {
-                        router.push("/Deshboard/Home")
+                        router.back()
                     }}>
                     <Feather style={{}} name='arrow-left' size={32} />
                 </Pressable>
@@ -29,23 +74,42 @@ const EntertainmentWork = () => {
                 </View>
                 <View style={{ gap: 12 }}>
                     <View style={{ borderRadius: 10, backgroundColor: "rgb(238, 235, 218)", padding: 10, alignItems: "center", width: "80%", justifyContent: "center" }}>
-                        <Text style={{ fontSize: 20 }}>Childhood & Origi</Text>
+                        <Pressable onPress={() => {
+                            chaptercheck("Childhood")
+                            // setChapterdata()
+                        }}>
+                            <Text style={{ fontSize: 20 }}>Childhood & Origi</Text>
+                        </Pressable>
                     </View>
-                    <View style={{ borderRadius: 10, backgroundColor: "rgb(238, 235, 218)", padding: 10, alignItems: "center", width: "90%", justifyContent: "center" }}>
+                    <Pressable onPress={
+                        ()=>{
+                            chaptercheck("Adolescence&Schooling")
+                        }
+                    } style={{ borderRadius: 10, backgroundColor: "rgb(238, 235, 218)", padding: 10, alignItems: "center", width: "90%", justifyContent: "center" }}>
                         <Text style={{ fontSize: 20 }}>Adolescence & Schooling</Text>
-                    </View>
-                    <View style={{ borderRadius: 10, backgroundColor: "rgb(238, 235, 218)", padding: 10, alignItems: "center", width: "60%", justifyContent: "center" }}>
+                    </Pressable>
+                    <Pressable onPress={
+                        ()=>{
+                            chaptercheck("Adult&life&Work")
+                        }
+                    } style={{ borderRadius: 10, backgroundColor: "rgb(238, 235, 218)", padding: 10, alignItems: "center", width: "60%", justifyContent: "center" }}>
                         <Text style={{ fontSize: 20 }}>Adult life & Work</Text>
-                    </View>
-                    <View style={{ borderRadius: 10, backgroundColor: "rgb(238, 235, 218)", padding: 10, alignItems: "center", width: "50%", justifyContent: "center" }}>
+                    </Pressable>
+                    <Pressable onPress={()=>{
+                        chaptercheck("Love&Family")
+                    }} style={{ borderRadius: 10, backgroundColor: "rgb(238, 235, 218)", padding: 10, alignItems: "center", width: "50%", justifyContent: "center" }}>
                         <Text style={{ fontSize: 20 }}>Love & Family</Text>
-                    </View>
-                    <View style={{ borderRadius: 10, backgroundColor: "rgb(238, 235, 218)", padding: 10, alignItems: "center", width: "60%", justifyContent: "center" }}>
+                    </Pressable>
+                    <Pressable onPress={()=>{
+                        chaptercheck("Society&World")
+                    }} style={{ borderRadius: 10, backgroundColor: "rgb(238, 235, 218)", padding: 10, alignItems: "center", width: "60%", justifyContent: "center" }}>
                         <Text style={{ fontSize: 20 }}>Society &World</Text>
-                    </View>
-                    <View style={{ borderRadius: 10, backgroundColor: "rgb(238, 235, 218)", padding: 10, alignItems: "center", width: "100%", justifyContent: "center" }}>
+                    </Pressable>
+                    <Pressable onPress={()=>{
+                        chaptercheck("ValuesMemories&Philosopgy")
+                    }} style={{ borderRadius: 10, backgroundColor: "rgb(238, 235, 218)", padding: 10, alignItems: "center", width: "100%", justifyContent: "center" }}>
                         <Text style={{ fontSize: 20 }}>Values,Memories &Philosopgy</Text>
-                    </View>
+                    </Pressable>
                 </View>
                 <View style={{ paddingVertical: 24 }}>
                     <Text style={{ fontSize: 20 }}>
@@ -53,14 +117,39 @@ const EntertainmentWork = () => {
                     </Text>
                 </View>
 
-                <View style={{ borderWidth: 2, paddingHorizontal: 20, paddingVertical: 20, borderColor: "rgb(238, 235, 218)", borderRadius: 10 }}>
-                    <View style={{ borderRadius: 10, width: "100%", alignItems: "center", flexDirection: "row", justifyContent: "space-between" }}>
-                        <Text style={{ fontSize: 18 }}>Question 1</Text>
-                        <Entypo name="arrow-right" size={34} color="rgb(185, 131, 82)" />
-                    </View>
-                    <Text style={{ fontSize: 18 }}>Where and when were you born?</Text>
 
-                </View>
+                <FlatList
+                    data={q}
+                    renderItem={({ item }) => {
+                        let Ans = en?.find((v: any) => v?.Q_id === item?.id)
+                        return (
+                            <View style={{ borderWidth: 2, paddingHorizontal: 20, paddingVertical: 20, borderColor: "rgb(238, 235, 218)", borderRadius: 10, marginTop: 20 }}>
+                                <View style={{ borderRadius: 10, width: "100%", alignItems: "center", flexDirection: "row", justifyContent: "space-between" }}>
+                                    <Text style={{ fontSize: 18 }}>Question 1</Text>
+                                    <Pressable onPress={() => {
+                                        if (id == item.id) {
+                                            setId("")
+                                        } else {
+                                            setId(item.id)
+                                        }
+
+
+                                    }}>
+                                        <Entypo name="arrow-right" size={34} color="rgb(185, 131, 82)" />
+                                    </Pressable>
+                                </View>
+                                <Text style={{ fontSize: 18, color: "red" }}>{item.Question}</Text>
+                                {(id === Ans?.Q_id) ?
+                                    <Text style={{ fontSize: 18, color: "green" }}>{Ans?.Answer}</Text>
+                                    : <Text></Text>
+                                }
+                            </View>
+                        )
+                    }}
+                >
+
+                </FlatList>
+
 
 
             </View>
