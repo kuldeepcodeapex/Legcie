@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
 
 
 const AppStateContext = createContext(null);
@@ -89,6 +90,16 @@ const AppStateProvider = ({ children }: any) => {
     setToken(null)
     setRole(null)
   }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: '#eaeaea',
+  },
+  });
+
   return (
     <AppStateContext.Provider value={{dataR,fetchRasidents,setdataR,fetchRasidentsQuestion,test,setTest,fetchA,q, setQ,en,setEn,
       setRole, role, user, setUser, token, signOut, setToken, loding, aid, setAid, rasidentId,dataQ, setdataQ,dataA, setdataA,pro, setpro,

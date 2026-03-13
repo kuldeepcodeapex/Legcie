@@ -1,8 +1,6 @@
 import { View } from "react-native";
-import Login from "./login";
 // import Home from "./EstablishmentDrawer/Home";
-import Help from "./Deshboard/pages/Help";
-import Home from "./Deshboard/Home";
+import Home from "./Frontend/pages/Home";
 // import { useContext, useEffect, useState } from "react";
 // // import { User } from "@supabase/supabase-js";
 // import { supabase } from "@/lib/supabase";
@@ -19,11 +17,10 @@ import Home from "./Deshboard/Home";
 // import EditAns from "./Deshboard/pages/EditAns";
 // import DrawerNavigator from "./DrawerNavigator";
 // import User from "./Pages/user";
-import { MenuProvider } from 'react-native-popup-menu';
 
 export default function Index() {
 
-  
+  console.log("first")
   return (
     
     <View >

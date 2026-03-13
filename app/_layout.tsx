@@ -18,10 +18,10 @@ export default function RootLayout() {
       }}>
 
         <Stack.Screen
-        name="Deshboard"
+        name="Frontend/pages/"
         options={{
            headerShown: false,
-          title: "Home",
+          title: "home",
          
         }}
           />

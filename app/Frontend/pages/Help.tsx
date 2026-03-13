@@ -7,7 +7,8 @@ import Contect_us from '@/component/Contect_us';
 import Rasidents from '@/app/Pages/Rasidents';
 import Resources from '@/component/Resources';
 import { WebView } from 'react-native-webview';
-// import { FlatList } from 'react-native-reanimated/lib/typescript/Animated';
+import Header from './Header';
+
 
 
 const Help = () => {
@@ -37,7 +38,10 @@ const VideoList = [
 
 
     return (
-        <ScrollView style={{ padding: 20, backgroundColor: "rgb(255, 254, 248)" }}>
+        <ScrollView>
+            <Header></Header>
+            <View style={{ padding: 20, backgroundColor: "rgb(255, 254, 248)" }}>
+          
             <View style={{ alignItems: "center", justifyContent: "center", padding: 10 }}>
                 <Text style={{ fontSize: 32 }}>Help & Support</Text>
                 <Text style={{ fontSize: 18, textAlign: "center" }}>Find answers to your questions or contact our team for personalized help</Text>
@@ -110,7 +114,7 @@ renderItem={({item})=>{
             <View style={{ marginBottom: 20 }}>
                 <Text style={{ paddingVertical: 20 }}>Project</Text>
             </View>
-
+</View>
         </ScrollView>
     )
 }

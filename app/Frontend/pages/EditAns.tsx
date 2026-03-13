@@ -1,96 +1,109 @@
-import { View, Text, TextInput, ScrollView, Pressable, Alert } from 'react-native'
-import React, { useContext, useState } from 'react'
+import { View, Text, ScrollView, TextInput, Pressable } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 import { Entypo, Feather } from '@expo/vector-icons'
 import { AppStateProvider, useAuth } from "@/Myauth/auth";
 import { supabase } from '@/lib/supabase';
-import * as ImagePicker from "expo-image-picker";
-import * as Linking from "expo-linking";
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
+import * as ImagePicker from 'expo-image-picker';
+import { Image } from 'expo-image';
+import Header from './Header';
 
+const EditAns = () => {
 
+    const { rasidentDashboardID, setTest, test, fetchRasidentsQuestion, dataA, setdataA, setRasidentDashboardID, qid, setqid, aid, setAid, setCount, count }: any = useAuth()
 
-const Answer = () => {
-
-  const [fileInfo, setFileInfo] = useState(null);
-  const [imageInfo, setImageInfo] = useState(null);
-
-    const { qid, rasidentDashboardID,setCount,count}: any = useAuth()
-
-
- 
-
+    const { a, interNote } = useLocalSearchParams();
+    const [imageInfo, setImageInfo] = useState(null);
+    const [form, setForm] = useState();
     const [formdata, setFormdata] = useState({
-        Answer: "",
-        interNote: "",
-        img:'',
-        Q_id: qid?.id,
-        Residents_ID: rasidentDashboardID?.id
+        Answer: a,
+        interNote: interNote,
+        img: test?.img
     })
-   
-    const submitdata = async () => {
-        const { data, error } = await supabase.from('ResidentA').insert(formdata)
+    useEffect(() => {
+        console.log(a)
+        console.log(formdata)
+    }, [])
+    const update = async () => {
+        const { data, error } = await supabase
+            .from('ResidentA')
+            .update(formdata)
+            .eq('id', aid)
+        console.log(formdata)
 
-        console.log("submit Form => ",formdata);
-        setCount(count+1)
-        if(!error){
-            
-         router.push("/Deshboard/pages/QA")
-                
+        if (!error) {
+            setdataA([...dataA, { formdata }])
+            router.back()
         }
-        if (error) console.log(error.message)
-        if (error) console.log(error)
+
+        if (error) {
+            console.log(error)
+        }
+    }
+
+
+    const check = () => {
+        console.log(a, formdata)
 
     }
 
-   const pickImage = async (fromCamera:any) => {
-    try {
-      if (!fromCamera) {
-        // Gallery
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== "granted") {
-          alert("Permission required to access photos");
-          return;
+    const pickImage = async (fromCamera: any) => {
+        try {
+            if (!fromCamera) {
+                // Gallery
+                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (status !== "granted") {
+                    alert("Permission required to access photos");
+                    return;
+                }
+
+                let result = await ImagePicker.launchImageLibraryAsync({
+                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                    allowsEditing: true,
+                    quality: 1,
+                });
+
+                if (!result.canceled) {
+                    setFormdata({ ...formdata, img: result.assets[0]?.uri });
+                }
+            } else {
+                // Camera
+                const { status } = await ImagePicker.requestCameraPermissionsAsync();
+                if (status !== "granted") {
+                    alert("Permission required to use camera");
+                    Linking.openSettings();
+                    return;
+                }
+
+                let result = await ImagePicker.launchCameraAsync({
+                    allowsEditing: true,
+                    quality: 1,
+                });
+
+                if (!result.canceled) {
+                    setImageInfo(result?.assets[0]);
+                }
+            }
+        } catch (error) {
+            console.log(error);
         }
-
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          quality: 1,
-        });
-
-        if (!result.canceled) {
-          setFormdata({...formdata,img:result.assets[0].uri});
-        }
-      } 
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Show option to user
-  const chooseOption = () => {
-    Alert.alert(
-      "Select Option",
-      "Choose a source",
-      [
-        { text: "📷 Camera", onPress: () => pickImage(true) },
-        { text: "🖼️ Gallery", onPress: () => pickImage(false) },
-        { text: "Cancel", style: "cancel" },
-      ]
-    );
-  };
+    };
 
     return (
-        <ScrollView style={{ padding: 20, paddingTop: 30, backgroundColor: "rgb(255, 254, 248)" }}>
+        <ScrollView>
+          <Header></Header>
+
+        <View style={{ padding: 20, paddingTop: 30, backgroundColor: "rgb(255, 254, 248)" }}>
+
             <View style={{ flexDirection: "row", gap: 20, alignItems: "center" }}>
-                <Pressable onPress={()=>{
-                    router.push("/Deshboard/pages/QA")
+                <Pressable onPress={() => {
+                    router.back()
                 }}>
-                    <Feather  name='arrow-left' size={32} />
+                    <Feather style={{}} name='arrow-left' size={32} />
                 </Pressable>
                 <View>
                     <Text style={{ fontSize: 16, paddingLeft: 5 }}>Week</Text>
-                    <Text style={{ fontSize: 26 }}>{qid?.Question}</Text>
+                    <Text style={{ fontSize: 26, width: "40%" }}>{qid?.Question}</Text>
                 </View>
 
             </View>
@@ -98,7 +111,7 @@ const Answer = () => {
 
                 <View style={{ backgroundColor: "white", borderWidth: 0.1, borderRadius: 10, gap: 16, margin: 10, padding: 24 }}>
                     <View style={{ alignItems: "center", flexDirection: "row", gap: 5 }}>
-                        <Feather  name='arrow-left' size={25} />
+                        <Feather style={{}} name='arrow-left' size={25} />
 
                         <Text style={{ fontSize: 18 }}>Animation tips for this question</Text>
                     </View>
@@ -127,7 +140,7 @@ const Answer = () => {
 
                 </View>
 
-                <View style={{ paddingVertical: 20, backgroundColor: "white", borderRadius: 10, marginHorizontal: 10, paddingBottom: 50 }}>
+                <View style={{ paddingVertical: 20, backgroundColor: "white", borderRadius: 10, padding: 20, marginHorizontal: 10, paddingBottom: 50 }}>
                     <Text style={{ color: "black", fontSize: 18, fontWeight: 600, width: "80%", paddingVertical: 20 }}>Written response </Text>
 
                     <TextInput multiline={true} numberOfLines={5} textAlignVertical='top' style={{ borderWidth: 0.1, borderRadius: 10, paddingHorizontal: 10, height: 150 }} value={formdata.Answer} onChangeText={(value) => { setFormdata({ ...formdata, Answer: value }) }}>
@@ -166,25 +179,46 @@ const Answer = () => {
 
                     </TextInput>
 
-                    <Pressable style={{ marginTop: 30, flexDirection: "row", gap: 10, backgroundColor: "white", borderWidth: 1, height: 40, marginRight: 10, width: 120, alignItems: "center", borderRadius: 10, justifyContent: "center" }}
-                        onPress={() => {
-                            pickImage()
-                        }}
-
-                    >
-                        <Entypo name="image" size={20} color="rgb(185, 131, 82)" />
+                    {
+                        (formdata.img) ?
 
 
-                        <Text style={{ color: "rgb(185, 131, 82)", fontSize: 14, fontWeight: 600 }}>Add photos </Text>
+                            <View>
+                                <Image
+                                    source={{ uri: `${formdata?.img}` }}
+                                    style={{ height: 200, width: "100%", margin: 10, borderRadius: 10 }}
+                                >
 
-                    </Pressable>
+                                </Image>
 
+                                <Pressable style={{ marginTop: 30, flexDirection: "row", gap: 10, backgroundColor: "white", borderWidth: 1, height: 40, marginRight: 10, width: 140, alignItems: "center", borderRadius: 10, justifyContent: "center" }}
+                                    onPress={() => {
+                                        pickImage()
+                                    }}>
+                                    <Entypo name="image" size={20} color="rgb(185, 131, 82)" />
+
+
+                                    <Text style={{ color: "rgb(185, 131, 82)", fontSize: 14, fontWeight: 700 }}>Edit photos </Text>
+
+                                </Pressable>
+                            </View>
+                            : <Pressable style={{ marginTop: 30, flexDirection: "row", gap: 10, backgroundColor: "white", borderWidth: 1, height: 40, marginRight: 10, width: 160, alignItems: "center", borderRadius: 10, justifyContent: "center" }}
+                                onPress={() => {
+                                    pickImage()
+                                }}>
+                                <Entypo name="image" size={20} color="rgb(185, 131, 82)" />
+
+
+                                <Text style={{ color: "rgb(185, 131, 82)", fontSize: 14, fontWeight: 700 }}>uplode photos </Text>
+
+                            </Pressable>
+                    }
                     <View style={{ alignItems: "center", flexDirection: "row", justifyContent: "space-between" }}>
-                        <Pressable style={{ marginTop: 30, flexDirection: "row", gap: 10, backgroundColor: "white", borderWidth: 0.1, height: 40, marginRight: 10, width: 120, alignItems: "center", borderRadius: 10, justifyContent: "center" }}
-                      onPress={()=>{
-                    router.push("/Deshboard/pages/QA")
-                }}
-                        
+                        <Pressable style={{ marginTop: 30, flexDirection: "row", gap: 10, backgroundColor: "white", borderWidth: 0.1, height: 40, marginRight: 10, width: 140, alignItems: "center", borderRadius: 10, justifyContent: "center" }}
+                            onPress={() => {
+                                check()
+                                // router.push('/Deshboard/pages/QA')
+                            }}
                         >
                             <Entypo name="image" size={20} color="rgb(185, 131, 82)" />
 
@@ -193,13 +227,13 @@ const Answer = () => {
 
                         </Pressable>
                         <Pressable style={{ marginTop: 30, flexDirection: "row", gap: 10, backgroundColor: "rgb(185, 131, 82)", borderWidth: 1, height: 40, marginRight: 10, width: 120, alignItems: "center", borderRadius: 10, justifyContent: "center" }} onPress={() => {
-                            submitdata()
-                            
+                            update()
+
                         }}>
                             <Entypo name="image" size={20} color="white" />
 
 
-                            <Text style={{ color: "white", fontSize: 14, fontWeight: 600 }}>Save</Text>
+                            <Text style={{ color: "white", fontSize: 14, fontWeight: 600 }}>Update</Text>
 
                         </Pressable>
                     </View>
@@ -217,9 +251,9 @@ const Answer = () => {
 
 
 
-
+</View>
         </ScrollView>
     )
 }
 
-export default Answer
+export default EditAns

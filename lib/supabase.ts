@@ -6,8 +6,8 @@ import 'react-native-url-polyfill/auto';
 
 // Use the correct IP for your environment
 const supabaseUrl = Platform.select({
-  ios: 'http://127.0.0.1:54321',
-  android: 'http://10.0.2.2:54321',
+  ios: 'http://192.168.31.14:54321',
+  android: 'http://192.168.31.14:54321',
   default: 'http://YOUR_LAN_IP:54321', // For physical devices
 });
 
